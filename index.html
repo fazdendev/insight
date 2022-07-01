@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<meta name="format-detection" content="telephone=no">
 	<!-- <style>body{opacity: 0;}</style> -->
-	<link rel="stylesheet" href="css/style.min.css?_v=20220629174848">
+	<link rel="stylesheet" href="css/style.min.css?_v=20220701173453">
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- <meta name="robots" content="noindex, nofollow"> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,13 +16,15 @@
 	<div class="wrapper">
 		<header class="header">
 			<div class="header__container">
-				<a href="" class="logo header__logo">
-					<div class="logo__picture">
-						<img src="img/header/Logo-ico.svg" class="logo__image" alt="Логотип" />
-					</div>
-					<div class="logo__text">sight</div>
-				</a>
-				<div class="icon-menu"><span></span></div>
+				<div class="header__row">
+					<a href="" class="logo header__logo">
+						<div class="logo__picture">
+							<img src="img/header/Logo-ico.svg" class="logo__image" alt="Логотип" />
+						</div>
+						<div class="logo__text">sight</div>
+					</a>
+					<div class="icon-menu"><span></span></div>
+				</div>
 				<nav class="header__menu menu-header">
 					<ul class="menu-header__nav">
 						<li class="menu-header__option"><a href="#1"> Главная</a></li>
@@ -48,7 +50,7 @@
 					</div>
 				</div>
 			</section>
-			<section class="dashboard" id="2">
+			<div class="dashboard" id="2">
 				<div class="dashboard__container">
 					<div class="dashboard__element">
 						<div class="dashboard__part_pc dashboard__part">
@@ -59,7 +61,7 @@
 						</div>
 					</div>
 				</div>
-			</section>
+			</div>
 			<section class="info-section info-section_secondary" id="3">
 				<div class="info-section__container _container">
 					<div class="info-section__content">
@@ -110,7 +112,9 @@
 										<a href="#" data-link="blank" class="article-conlumn__category">Ведение бюджета</a>
 										<div class="article-conlumn__date">22.06.2022</div>
 									</header>
-									<a href="#" data-link="blank" class="article-conlumn__title">Личный бюджет: как вести, кому и зачем это нужно</a>
+									<a href="#" data-link="blank" class="article-conlumn__title">
+										<h3>Личный бюджет: как вести, кому и зачем это нужно</h3>
+									</a>
 									<a href="#" data-link="blank" class="article-conlumn__text">Личный бюджет — это финансовый план, распределяющий текущий и будущий доход, предназначенный для расходования и сбережений. Практически все специалисты...</a>
 								</div>
 							</article>
@@ -125,7 +129,9 @@
 										<a href="#" data-link="blank" class="article-conlumn__category">Инвестиции</a>
 										<div class="article-conlumn__date">21.06.2022</div>
 									</header>
-									<a href="#" data-link="blank" class="article-conlumn__title">В данной статья мы расскажем зачем инвестировать, и почему не стоит хранить деньги под подушкой</a>
+									<a href="#" data-link="blank" class="article-conlumn__title">
+										<h3>В данной статья мы расскажем зачем инвестировать, и почему не стоит хранить деньги под подушкой</h3>
+									</a>
 									<a href="#" data-link="blank" class="article-conlumn__text">Ни под какие подушки или в бабушкины сундуки не надо прятать деньги,- говорит финансовый аналитик Сергей Дроздов. - Сейчас банки фиксируют</a>
 								</div>
 							</article>
@@ -141,7 +147,9 @@
 											<a href="#" data-link="blank" class="article-conlumn__category">Советы по экономии</a>
 											<div class="article-conlumn__date">23.06.2022</div>
 										</header>
-										<a href="#" data-link="blank" class="article-conlumn__title">Рассказываем как сэкономить на подписках</a>
+										<a href="#" data-link="blank" class="article-conlumn__title">
+											<h3>Рассказываем как сэкономить на подписках</h3>
+										</a>
 									</div>
 								</div>
 							</article>
@@ -155,7 +163,9 @@
 											<a href="#" data-link="blank" class="article-conlumn__category">Уловки маркетологов</a>
 											<div class="article-conlumn__date">22.06.2022</div>
 										</header>
-										<a href="#" data-link="blank" class="article-conlumn__title">В данной статье ты узнаешь, о самых частых уловках маркетологов в продуктовом магазине</a>
+										<a href="#" data-link="blank" class="article-conlumn__title">
+											<h3>В данной статье ты узнаешь, о самых частых уловках маркетологов в продуктовом магазине</h3>
+										</a>
 									</div>
 								</div>
 							</article>
@@ -169,7 +179,9 @@
 											<a href="#" data-link="blank" class="article-conlumn__category">Конфиденциальность</a>
 											<div class="article-conlumn__date">25.06.2022</div>
 										</header>
-										<a href="#" data-link="blank" class="article-conlumn__title">Почему импорт операций из банка удобен и безопасен</a>
+										<a href="#" data-link="blank" class="article-conlumn__title">
+											<h3>Почему импорт операций из банка удобен и безопасен</h3>
+										</a>
 									</div>
 								</div>
 							</article>
@@ -215,7 +227,7 @@
 								<form action="post" class="newssetler-footer__input-email email-input">
 									<input class="email-input__input" placeholder="Введите email" name="email" />
 									<div class="email-input__main-button main-button main-button_small">
-										<button class="main-button__button">Подписаться</button>
+										<button class="main-button__button" data-link="blank">Подписаться</button>
 									</div>
 								</form>
 								<div class="newssetler-footer__text">Начни получать советы от Insight уже сейчас</div>
@@ -242,7 +254,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="js/app.min.js?_v=20220629174848"></script>
+	<script src="js/app.min.js?_v=20220701173453"></script>
 </body>
 
 </html>
