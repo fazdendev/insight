@@ -26,8 +26,8 @@
     isWebp();
     const body = document.body;
     const header = document.querySelector(".header");
+    const headerContainer = document.querySelector(".header__container");
     document.querySelector(".menu-header");
-    document.getElementsByClassName("menu-open");
     const popup = document.querySelector(".popup");
     document.querySelector(".main-button__button");
     let popupShown;
@@ -56,7 +56,7 @@
         if (e.target.closest(".icon-menu")) {
             toggleClass(header, "menu-open");
             toggleClass(body, "lock");
-        } else if (!e.target.closest(".menu-header") || e.target.closest(".icon-menu")) {
+        } else if (!e.target.closest(".header__container") || e.target.closest(".icon-menu")) {
             removeClass(header, "menu-open");
             removeClass(body, "lock");
         }
@@ -80,5 +80,15 @@
             popupShown = 0;
             popupTimer = 0;
         }
+    }));
+    headerContainer.addEventListener("mouseenter", (function(e) {
+        let menuOpen = document.querySelector(".menu-open");
+        if (menuOpen) {
+            addClass(body, "lock");
+            console.log(menuOpen);
+        }
+    }));
+    headerContainer.addEventListener("mouseleave", (function(e) {
+        removeClass(body, "lock");
     }));
 })();
