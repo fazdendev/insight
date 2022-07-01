@@ -81,14 +81,25 @@
             popupTimer = 0;
         }
     }));
-    headerContainer.addEventListener("mouseenter", (function(e) {
-        let menuOpen = document.querySelector(".menu-open");
-        if (menuOpen) {
-            addClass(body, "lock");
-            console.log(menuOpen);
-        }
+    document.addEventListener("touchstart", (function(e) {
+        if (e.target.closest(".header__container")) addClass(body, "lock"); else removeClass(body, "lock");
     }));
-    headerContainer.addEventListener("mouseleave", (function(e) {
-        removeClass(body, "lock");
+    document.addEventListener("touchend", (function(e) {
+        if (e.target.closest(".header__container")) removeClass(body, "lock");
+    }));
+    document.addEventListener("touchmove", (function(e) {
+        if (e.target.closest(".header__container")) addClass(body, "lock");
+    }));
+    document.addEventListener("mousemove", (function(e) {
+        headerContainer.addEventListener("mouseenter", (function(e) {
+            let menuOpen = document.querySelector(".menu-open");
+            if (menuOpen) {
+                addClass(body, "lock");
+                console.log(menuOpen);
+            }
+        }));
+        headerContainer.addEventListener("mouseleave", (function(e) {
+            removeClass(body, "lock");
+        }));
     }));
 })();
