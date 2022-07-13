@@ -26,13 +26,9 @@
     isWebp();
     const body = document.body;
     const header = document.querySelector(".header");
-    const headerContainer = document.querySelector(".header__container");
-    document.querySelector(".menu-header");
     const popup = document.querySelector(".popup");
-    document.querySelector(".main-button__button");
-    let popupShown;
-    let popupTimer = 0;
-    let popupInterval;
+    const dropdowns = document.querySelectorAll(".dropdown");
+    let clientWidth = document.documentElement.clientWidth;
     function addClass(elementClass, сlassName) {
         elementClass.classList.add(сlassName);
     }
@@ -42,64 +38,170 @@
     function toggleClass(elementClass, сlassName) {
         elementClass.classList.toggle(сlassName);
     }
-    function popupAnim() {
-        popupTimer += 500;
-        if (4500 == popupTimer) addClass(popup, "popup-waning");
-        if (5e3 == popupTimer) {
-            removeClass(popup, "popup-waning");
-            removeClass(popup, "popup-shown");
-            popupTimer = 0;
-            popupShown = 0;
+    function initMobileMenu() {
+        const headerContainer = document.querySelector(".header__container");
+        document.addEventListener("click", menuOpen);
+        function menuOpen(e) {
+            if (e.target.closest(".icon-menu")) {
+                toggleClass(header, "menu-open");
+                toggleClass(body, "lock");
+            } else if (!e.target.closest(".header") || e.target.closest(".icon-menu")) {
+                removeClass(header, "menu-open");
+                removeClass(body, "lock");
+            }
         }
+        function scrollLockMobile() {
+            document.addEventListener("touchstart", (function(e) {
+                if (e.target.closest(".header__container")) addClass(body, "lock"); else removeClass(body, "lock");
+                document.addEventListener("touchmove", (function(e) {
+                    if (e.target.closest(".header__container")) addClass(body, "lock");
+                }));
+                document.addEventListener("mousemove", (function(e) {
+                    headerContainer.addEventListener("mouseenter", (function(e) {
+                        let menuOpen = document.querySelector(".menu-open");
+                        if (menuOpen) {
+                            addClass(body, "lock");
+                            console.log(menuOpen);
+                        }
+                    }));
+                    headerContainer.addEventListener("mouseleave", (function(e) {
+                        removeClass(body, "lock");
+                    }));
+                }));
+            }));
+        }
+        scrollLockMobile();
     }
-    document.addEventListener("click", (function(e) {
-        if (e.target.closest(".icon-menu")) {
-            toggleClass(header, "menu-open");
-            toggleClass(body, "lock");
-        } else if (!e.target.closest(".header__container") || e.target.closest(".icon-menu")) {
-            removeClass(header, "menu-open");
-            removeClass(body, "lock");
-        }
-        if (e.target.closest("[data-link=blank]")) {
-            popupShown = document.querySelector(".popup-shown");
-            e.preventDefault();
-            if (popupShown) {
-                addClass(popup, "popup-scale");
-                setTimeout(removeClass, 300, popup, "popup-scale");
+    function initPopup() {
+        let popupShown;
+        let popupTimer = 0;
+        let popupInterval;
+        function popupAnim() {
+            popupTimer += 500;
+            if (4500 == popupTimer) addClass(popup, "popup-waning");
+            if (5e3 == popupTimer) {
+                removeClass(popup, "popup-waning");
+                removeClass(popup, "popup-shown");
                 popupTimer = 0;
-            } else {
-                addClass(popup, "popup-shown");
-                clearInterval(popupInterval);
-                popupInterval = setInterval(popupAnim, 500);
+                popupShown = 0;
             }
         }
-        if (e.target.closest(".popup__main-button")) {
-            addClass(popup, "popup-waning");
-            setTimeout(removeClass, 500, popup, "popup-waning");
-            setTimeout(removeClass, 500, popup, "popup-shown");
-            popupShown = 0;
-            popupTimer = 0;
-        }
-    }));
-    document.addEventListener("touchstart", (function(e) {
-        if (e.target.closest(".header__container")) addClass(body, "lock"); else removeClass(body, "lock");
-    }));
-    document.addEventListener("touchend", (function(e) {
-        if (e.target.closest(".header__container")) removeClass(body, "lock");
-    }));
-    document.addEventListener("touchmove", (function(e) {
-        if (e.target.closest(".header__container")) addClass(body, "lock");
-    }));
-    document.addEventListener("mousemove", (function(e) {
-        headerContainer.addEventListener("mouseenter", (function(e) {
-            let menuOpen = document.querySelector(".menu-open");
-            if (menuOpen) {
-                addClass(body, "lock");
-                console.log(menuOpen);
+        document.addEventListener("click", (function(e) {
+            if (e.target.closest("[data-link=blank]")) {
+                popupShown = document.querySelector(".popup-shown");
+                e.preventDefault();
+                if (popupShown) {
+                    addClass(popup, "popup-scale");
+                    setTimeout(removeClass, 300, popup, "popup-scale");
+                    popupTimer = 0;
+                } else {
+                    addClass(popup, "popup-shown");
+                    clearInterval(popupInterval);
+                    popupInterval = setInterval(popupAnim, 500);
+                }
+            }
+            if (e.target.closest(".popup__main-button")) {
+                addClass(popup, "popup-waning");
+                setTimeout(removeClass, 500, popup, "popup-waning");
+                setTimeout(removeClass, 500, popup, "popup-shown");
+                popupShown = 0;
+                popupTimer = 0;
             }
         }));
-        headerContainer.addEventListener("mouseleave", (function(e) {
-            removeClass(body, "lock");
-        }));
-    }));
+    }
+    function initDropdowns() {
+        let dropdownBody, dropdownBodyHeight, dropdownTitle, dropdownElements;
+        let heightZeroTimeout;
+        for (let index = 0; index < dropdowns.length; index++) {
+            let dropdown = dropdowns[index];
+            initDropdown(dropdown);
+        }
+        function initDropdown(dropdown) {
+            initDropdownVars(dropdown);
+            DoRollUp();
+        }
+        function disInitDropdown(dropdown) {
+            initDropdownVars(dropdown);
+            undoRollUp(dropdown);
+        }
+        function initDropdownVars(dropdown) {
+            dropdownBody = dropdown.querySelector(".dropdown__body");
+            dropdownElements = dropdown.querySelector(".dropdown__elements");
+            dropdownTitle = dropdown.querySelector(".dropdown__title");
+            dropdownBodyHeight = dropdownBody.offsetHeight;
+        }
+        function DoRollUp() {
+            dropdownBodyHeight = dropdownBody.offsetHeight;
+            let dropdownOffset = dropdownBodyHeight + 100;
+            dropdownElements.style.marginTop = `-${dropdownOffset}px`;
+            clearTimeout(heightZeroTimeout);
+            heightZeroTimeout = setTimeout(dropdownElementsHeightZero, 400);
+            function dropdownElementsHeightZero() {
+                dropdownElements.style.height = `0px`;
+            }
+        }
+        function undoRollUp(dropdown) {
+            clearTimeout(heightZeroTimeout);
+            dropdownElements.style.marginTop = ``;
+            dropdownElements.style.height = ``;
+        }
+        function listenDoRollUp() {
+            document.addEventListener("click", (function(e) {
+                if (e.target.closest(".dropdown__title")) {
+                    const dropdown = e.target.closest(".dropdown");
+                    if (!dropdown.classList.contains("dropdown-disabled")) {
+                        initDropdownVars(dropdown);
+                        if (!dropdown.classList.contains("dropdown-open")) {
+                            dropdown.classList.add("dropdown-open");
+                            dropdown.classList.remove("dropdown-closed");
+                            undoRollUp(dropdown);
+                            dropdown.classList.remove("dropdown-user-disabled");
+                        } else {
+                            DoRollUp();
+                            dropdown.classList.remove("dropdown-open");
+                            dropdown.classList.add("dropdown-closed");
+                            dropdown.classList.add("dropdown-user-disabled");
+                        }
+                    }
+                }
+            }));
+        }
+        function initDdisableOnBreakpoint() {
+            function disableOnBreakpoint(breakpointOpen = 1020) {
+                if (clientWidth > breakpointOpen) for (let index = 0; index < dropdowns.length; index++) {
+                    let dropdown = dropdowns[index];
+                    dropdown.classList.add("dropdown-disabled");
+                    dropdown.classList.remove("dropdown-open");
+                    dropdown.classList.remove("dropdown-closed");
+                    disInitDropdown(dropdown);
+                } else for (let index = 0; index < dropdowns.length; index++) {
+                    let dropdown = dropdowns[index];
+                    dropdown.classList.remove("dropdown-disabled");
+                    if (dropdown.classList.contains("dropdown-user-disabled")) {
+                        dropdown.classList.remove("dropdown-open");
+                        dropdown.classList.add("dropdown-closed");
+                        initDropdown(dropdown);
+                    } else {
+                        dropdown.classList.add("dropdown-open");
+                        dropdown.classList.remove("dropdown-closed");
+                        disInitDropdown(dropdown);
+                    }
+                }
+            }
+            disableOnBreakpoint();
+            window.addEventListener("resize", (function(e) {
+                clientWidth = document.documentElement.clientWidth;
+                disableOnBreakpoint();
+            }));
+        }
+        listenDoRollUp();
+        initDdisableOnBreakpoint();
+    }
+    new SmoothScroll("a[data-scroll]", {
+        speed: 100,
+        speedAsDuration: true
+    });
+    if (header) initMobileMenu();
+    if (popup) initPopup();
+    if (dropdowns.length) initDropdowns();
 })();
