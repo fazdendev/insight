@@ -34,4 +34,4 @@ Insight это работа номер два в моем портфолио.
 - Библиотека Smooth Scroll
 - Кастомный скроллбар
 
-Ссылка на сайт fazdendev.github.io/insight/
+Ссылка на сайт https://fazdendev.github.io/insight/
