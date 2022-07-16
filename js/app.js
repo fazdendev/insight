@@ -73,17 +73,19 @@
         scrollLockMobile();
     }
     function initPopup() {
-        let popupShown;
-        let popupTimer = 0;
-        let popupInterval;
+        let popupShown, popupInterval, popupWaning, popupTimer = 0;
         function popupAnim() {
             popupTimer += 500;
-            if (4500 == popupTimer) addClass(popup, "popup-waning");
+            if (4500 == popupTimer) {
+                addClass(popup, "popup-waning");
+                popupWaning = 1;
+            }
             if (5e3 == popupTimer) {
                 removeClass(popup, "popup-waning");
                 removeClass(popup, "popup-shown");
                 popupTimer = 0;
                 popupShown = 0;
+                popupWaning = 0;
             }
         }
         document.addEventListener("click", (function(e) {
@@ -98,6 +100,10 @@
                     addClass(popup, "popup-shown");
                     clearInterval(popupInterval);
                     popupInterval = setInterval(popupAnim, 500);
+                }
+                if (popupWaning) {
+                    removeClass(popup, "popup-waning");
+                    popupTimer = 0;
                 }
             }
             if (e.target.closest(".popup__main-button")) {
